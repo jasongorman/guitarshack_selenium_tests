@@ -45,4 +45,18 @@ public class BasketDriver {
         WebElement productsLink = driver.findElement(By.partialLinkText(linkText));
         productsLink.click();
     }
+
+    public int getProductStock(String description) {
+        clickLink("Products");
+        clickLink(description);
+        WebElement productStock = driver.findElement((By.id("stock")));
+        return Integer.parseInt(productStock.getText());
+    }
+
+    public boolean addIsEnabled(String product) {
+        clickLink("Products");
+        clickLink(product);
+        WebElement addToBasket = driver.findElement(By.id("add_to_basket"));
+        return addToBasket.isEnabled();
+    }
 }

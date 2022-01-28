@@ -3,6 +3,7 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BasketJourneyTest {
@@ -24,7 +25,12 @@ public class BasketJourneyTest {
     }
 
     @Test
-    public void c_totalOfItemWithQuantityTwo() {
+    public void c_addingProductToBasketReducesStock(){
+        assertEquals(4, basket.getProductStock("Epiphone"));
+    }
+
+    @Test
+    public void d_totalOfItemWithQuantityTwo() {
         basket.add("Epiphone");
         basket.checkout();
         assertEquals(2, basket.getQuantity());
@@ -32,10 +38,15 @@ public class BasketJourneyTest {
     }
 
     @Test
-    public void d_totalOfTwoItems(){
+    public void e_totalOfTwoItems(){
         basket.add("Fender");
         basket.checkout();
         assertEquals(1378.9, basket.getTotal(), 0.0);
+    }
+
+    @Test
+    public void f_cannotAddOutOfStockProductToBasket(){
+        assertFalse(basket.addIsEnabled("Ibanez Tube Screamer"));
     }
 
     @BeforeClass

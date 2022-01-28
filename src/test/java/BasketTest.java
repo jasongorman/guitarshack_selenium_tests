@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class BasketTest {
 
@@ -40,6 +40,17 @@ public class BasketTest {
         basket.checkout();
         assertEquals(2, basket.getQuantity());
         assertEquals(799.9, basket.getTotal(), 0.0);
+    }
+
+    @Test
+    public void addingProductToBasketReducesStock(){
+        basket.add("Epiphone");
+        assertEquals(4, basket.getProductStock("Epiphone"));
+    }
+
+    @Test
+    public void cannotAddOutOfStockProductToBasket(){
+        assertFalse(basket.addIsEnabled("Ibanez Tube Screamer"));
     }
 
     @Before
