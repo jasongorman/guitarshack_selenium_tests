@@ -2,18 +2,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class BasketDriver {
 
     private final WebDriver driver;
+    private final String baseUrl;
 
     public BasketDriver(WebDriver driver){
         this.driver = driver;
+        //baseUrl = "https://guitarshackbasket.azurewebsites.net/";
+        baseUrl = "http://localhost:5000/";
     }
 
-    public int getQuantity() {
-        WebElement quantityTableCell = driver.findElement(By.id("quantity"));
-        int quantity = Integer.parseInt(quantityTableCell.getText());
-        return quantity;
+    public int getQuantity(String product) {
+        WebElement quantityTableCell = driver.findElement(
+                By.xpath(".//*[@id='items']/tbody/tr[contains(td[0], " + product + ")]/td[@id='quantity']"));
+        return Integer.parseInt(quantityTableCell.getText());
     }
 
     public double getTotal() {
@@ -33,7 +38,7 @@ public class BasketDriver {
     }
 
     public void home() {
-        driver.get("http://localhost:5000");
+        driver.get(baseUrl);
     }
 
     private void clickButton(String id) {
@@ -58,5 +63,10 @@ public class BasketDriver {
         clickLink(product);
         WebElement addToBasket = driver.findElement(By.id("add_to_basket"));
         return addToBasket.isEnabled();
+    }
+
+    public int getItemCount() {
+        List<WebElement> items = driver.findElements(By.xpath(".//*[@id='items']/tbody/tr"));
+        return items.size();
     }
 }

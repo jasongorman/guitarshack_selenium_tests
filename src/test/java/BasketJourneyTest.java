@@ -33,7 +33,8 @@ public class BasketJourneyTest {
     public void d_totalOfItemWithQuantityTwo() {
         basket.add("Epiphone");
         basket.checkout();
-        assertEquals(2, basket.getQuantity());
+        assertEquals(2, basket.getItemCount());
+        assertEquals(2, basket.getQuantity("Epiphone"));
         assertEquals(799.9, basket.getTotal(), 0.0);
     }
 
